@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import LogoutButton from "@/components/shared/LogoutButton";
 
 export default async function AdminDashboard() {
   const session = await auth();
@@ -7,9 +8,12 @@ export default async function AdminDashboard() {
     <div className="min-h-screen bg-gray-900 p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <header className="bg-gray-800 shadow rounded-lg p-6 mb-6 border border-gray-700">
-          <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
-          <p className="text-gray-400 mt-2">System Administrator: {session?.user?.name}</p>
+        <header className="bg-gray-800 shadow rounded-lg p-6 mb-6 border border-gray-700 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
+            <p className="text-gray-400 mt-2">System Administrator: {session?.user?.name}</p>
+          </div>
+          <LogoutButton />
         </header>
 
         {/* Stats Grid */}

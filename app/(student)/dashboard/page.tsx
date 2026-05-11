@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import LogoutButton from "@/components/shared/LogoutButton";
 
 export default async function StudentDashboard() {
   // We can securely grab the logged-in user's data on the server!
@@ -8,9 +9,12 @@ export default async function StudentDashboard() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <header className="bg-white shadow rounded-lg p-6 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Student Dashboard</h1>
-          <p className="text-gray-600 mt-2">Welcome back, {session?.user?.name}!</p>
+        <header className="bg-white shadow rounded-lg p-6 mb-6 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800">Student Dashboard</h1>
+            <p className="text-gray-600 mt-2">Welcome back, {session?.user?.name}!</p>
+          </div>
+          <LogoutButton />
         </header>
 
         {/* Content Section */}
