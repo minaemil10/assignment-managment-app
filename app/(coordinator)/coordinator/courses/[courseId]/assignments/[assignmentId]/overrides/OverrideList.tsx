@@ -106,8 +106,8 @@ export default function OverrideList({ assignmentId, allSections, initialOverrid
   return (
     <div className="space-y-6">
       {/* Add Override Form */}
-      <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-white mb-3">Add Override</h3>
+      <div className="bg-card border border-border rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-foreground mb-3">Add Override</h3>
         <OverrideForm
           assignmentId={assignmentId}
           availableSections={availableSections}
@@ -117,30 +117,30 @@ export default function OverrideList({ assignmentId, allSections, initialOverrid
 
       {/* Overrides Table */}
       {overrides.length === 0 ? (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 text-center">
-          <p className="text-gray-400">
+        <div className="bg-card border border-border rounded-lg p-8 text-center">
+          <p className="text-muted-foreground">
             No overrides yet. All sections use the default deadline.
           </p>
         </div>
       ) : (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden">
+        <div className="bg-card border border-border rounded-lg overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-700">
-                <th className="text-left p-4 text-gray-400 font-medium text-sm">Section</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-sm">Override Deadline</th>
-                <th className="text-right p-4 text-gray-400 font-medium text-sm">Actions</th>
+              <tr className="border-b border-border">
+                <th className="text-left p-4 text-muted-foreground font-medium text-sm">Section</th>
+                <th className="text-left p-4 text-muted-foreground font-medium text-sm">Override Deadline</th>
+                <th className="text-right p-4 text-muted-foreground font-medium text-sm">Actions</th>
               </tr>
             </thead>
             <tbody>
               {overrides.map((override) => (
-                <tr key={override.id} className="border-b border-gray-700 last:border-0">
-                  <td className="p-4 text-white font-medium">{override.section_name}</td>
-                  <td className="p-4 text-gray-300">{formatDate(override.due_date)}</td>
+                <tr key={override.id} className="border-b border-border last:border-0">
+                  <td className="p-4 text-foreground font-medium">{override.section_name}</td>
+                  <td className="p-4 text-muted-foreground">{formatDate(override.due_date)}</td>
                   <td className="p-4 text-right">
                     <div className="flex gap-2 justify-end">
                       <button
-                        className="border border-gray-600 text-gray-300 hover:bg-gray-700 text-sm py-1 px-3 rounded transition"
+                        className="border border-border text-muted-foreground hover:bg-accent text-sm py-1 px-3 rounded transition"
                         onClick={() => {
                           setEditingOverride(override);
                           setEditDate(formatDateForInput(override.due_date));
@@ -149,7 +149,7 @@ export default function OverrideList({ assignmentId, allSections, initialOverrid
                         Edit
                       </button>
                       <button
-                        className="bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded transition"
+                        className="bg-destructive hover:bg-destructive/90 text-white text-sm py-1 px-3 rounded transition"
                         onClick={() => setDeleteTarget(override)}
                       >
                         Delete
@@ -173,24 +173,24 @@ export default function OverrideList({ assignmentId, allSections, initialOverrid
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-2 py-4">
-            <label htmlFor="edit-date" className="text-sm font-medium text-gray-300">New Deadline</label>
+            <label htmlFor="edit-date" className="text-sm font-medium text-foreground">New Deadline</label>
             <input
               id="edit-date"
               type="datetime-local"
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-input border border-border rounded text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               value={editDate}
               onChange={(e) => setEditDate(e.target.value)}
             />
           </div>
           <DialogFooter>
             <button
-              className="border border-gray-600 text-gray-300 hover:bg-gray-700 py-2 px-4 rounded transition"
+              className="border border-border text-muted-foreground hover:bg-accent py-2 px-4 rounded transition"
               onClick={() => setEditingOverride(null)}
             >
               Cancel
             </button>
             <button
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 py-2 px-4 rounded transition"
               onClick={handleEdit}
               disabled={loading}
             >
@@ -212,13 +212,13 @@ export default function OverrideList({ assignmentId, allSections, initialOverrid
           </DialogHeader>
           <DialogFooter>
             <button
-              className="border border-gray-600 text-gray-300 hover:bg-gray-700 py-2 px-4 rounded transition"
+              className="border border-border text-muted-foreground hover:bg-accent py-2 px-4 rounded transition"
               onClick={() => setDeleteTarget(null)}
             >
               Cancel
             </button>
             <button
-              className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition"
+              className="bg-destructive hover:bg-destructive/90 text-white py-2 px-4 rounded transition"
               onClick={handleDelete}
               disabled={loading}
             >

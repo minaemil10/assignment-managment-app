@@ -17,20 +17,20 @@ export default async function NewAssignmentPage({
   if (!owns) redirect("/coordinator/dashboard");
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8">
+    <div className="min-h-screen bg-background text-foreground p-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
           <Link
             href={`/coordinator/courses/${courseId}/assignments`}
-            className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+            className="text-sm text-muted-foreground/70 hover:text-foreground transition-colors"
           >
             ← Back to Assignments
           </Link>
-          <h1 className="text-3xl font-bold text-white mt-1">Create Assignment</h1>
-          <p className="text-gray-400">Add a new assignment to this course</p>
+          <h1 className="text-3xl font-bold text-foreground mt-1">Create Assignment</h1>
+          <p className="text-muted-foreground">Add a new assignment to this course</p>
         </div>
 
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+        <div className="bg-card border border-border rounded-lg p-6">
           <AssignmentForm courseId={courseId} mode="create" />
         </div>
       </div>

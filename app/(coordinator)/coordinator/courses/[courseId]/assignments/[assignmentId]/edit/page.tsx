@@ -26,20 +26,20 @@ export default async function EditAssignmentPage({
   const assignment = result.rows[0];
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8">
+    <div className="min-h-screen bg-background text-foreground p-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
           <Link
             href={`/coordinator/courses/${courseId}/assignments`}
-            className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+            className="text-sm text-muted-foreground/70 hover:text-foreground transition-colors"
           >
             ← Back to Assignments
           </Link>
-          <h1 className="text-3xl font-bold text-white mt-1">Edit: {assignment.title}</h1>
-          <p className="text-gray-400">Update assignment details</p>
+          <h1 className="text-3xl font-bold text-foreground mt-1">Edit: {assignment.title}</h1>
+          <p className="text-muted-foreground">Update assignment details</p>
         </div>
 
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+        <div className="bg-card border border-border rounded-lg p-6">
           <AssignmentForm
             courseId={courseId}
             mode="edit"

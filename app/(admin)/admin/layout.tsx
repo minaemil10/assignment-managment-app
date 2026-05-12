@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoutButton from "@/components/shared/LogoutButton";
+import ThemeToggle from "@/components/shared/ThemeToggle";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -17,8 +18,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
+    <div className="flex min-h-screen bg-background">
+      {/* Sidebar - always dark */}
       <aside className="w-64 bg-gray-900 text-white flex flex-col fixed inset-y-0 shadow-xl">
         <div className="p-6 border-b border-gray-800">
           <h2 className="text-xl font-bold tracking-wider text-blue-400">ADMIN PANEL</h2>
@@ -44,14 +45,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4 border-t border-gray-800 flex items-center gap-2">
+          <ThemeToggle />
           <LogoutButton />
         </div>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 ml-64 p-4">
-        <div className="bg-white min-h-[calc(100vh-2rem)] rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-card text-card-foreground min-h-[calc(100vh-2rem)] rounded-2xl shadow-sm border border-border overflow-hidden">
           {children}
         </div>
       </main>

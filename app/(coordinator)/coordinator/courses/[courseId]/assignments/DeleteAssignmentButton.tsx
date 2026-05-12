@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -39,7 +38,7 @@ export default function DeleteAssignmentButton({
         router.refresh();
       }
     } catch {
-      // silently fail — could add error state if needed
+      // silently fail
     } finally {
       setLoading(false);
     }
@@ -47,7 +46,9 @@ export default function DeleteAssignmentButton({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button variant="destructive" size="sm" />}>
+      <DialogTrigger render={
+        <button className="bg-destructive hover:bg-destructive/90 text-white text-sm py-1 px-3 rounded transition" />
+      }>
         Delete
       </DialogTrigger>
       <DialogContent>
@@ -59,12 +60,19 @@ export default function DeleteAssignmentButton({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+          <button
+            className="border border-border text-muted-foreground hover:bg-accent py-2 px-4 rounded transition"
+            onClick={() => setOpen(false)}
+          >
             Cancel
-          </Button>
-          <Button variant="destructive" onClick={handleDelete} disabled={loading}>
+          </button>
+          <button
+            className="bg-destructive hover:bg-destructive/90 text-white py-2 px-4 rounded transition"
+            onClick={handleDelete}
+            disabled={loading}
+          >
             {loading ? "Deleting..." : "Delete"}
-          </Button>
+          </button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
