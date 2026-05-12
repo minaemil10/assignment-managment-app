@@ -27,11 +27,13 @@ export default auth((req) => {
 
   // 3. Security guards for specific folders
   if (path.startsWith('/admin') && role !== 'ADMIN') {
+    if (role === 'COORDINATOR') return NextResponse.redirect(new URL('/coordinator/dashboard', req.url));
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
   if (path.startsWith('/coordinator') && role !== 'COORDINATOR') {
-     return NextResponse.redirect(new URL('/dashboard', req.url));
+    if (role === 'ADMIN') return NextResponse.redirect(new URL('/admin/dashboard', req.url));
+    return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 });
 
