@@ -42,6 +42,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: `Term ${termNum} requires a specific department. It cannot be Preparatory.` }, { status: 400 });
     }
 
+    // 3. Check for duplicates (Handling NULL department_id for Prep Terms)
+    const duplicateCheck = await query(
+      'SELECT id FROM terms WHERE number = $1 AND (department_id = $2 OR (department_id IS NULL AND $2 IS NULL))',
+      [termNum, department_id || null]
+    );
+
+    if (duplicateCheck.rows.length > 0) {
+      return NextResponse.json({ error: "This term already exists for this department." }, { status: 400 });
+    }
+
     const res = await query(
       'INSERT INTO terms (number, level, department_id) VALUES ($1, $2, $3) RETURNING *',
       [termNum, calculatedLevel, department_id || null]

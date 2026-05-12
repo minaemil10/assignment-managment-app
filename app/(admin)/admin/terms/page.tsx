@@ -12,6 +12,7 @@ export default function TermsPage() {
   const [number, setNumber] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [error, setError] = useState("");
+  const [isDeleting, setIsDeleting] = useState<number | null>(null);
 
   // Sorting State
   const [sortColumn, setSortColumn] = useState<SortColumn>('level');
@@ -69,6 +70,24 @@ export default function TermsPage() {
       const data = await res.json();
       setError(data.error || "Failed to add term");
     }
+  };
+
+  const handleDelete = async (id: number) => {
+    const confirmed = window.confirm("Are you sure you want to delete this term? This action cannot be undone.");
+    if (!confirmed) return;
+
+    setIsDeleting(id);
+    const res = await fetch(`/api/terms/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      fetchData();
+    } else {
+      const data = await res.json();
+      alert(data.error || "Failed to delete term");
+    }
+    setIsDeleting(null);
   };
 
   const getDepartmentName = (deptId: number | null) => {
@@ -189,12 +208,13 @@ export default function TermsPage() {
               >
                 Department{renderSortIndicator('department')}
               </th>
+              <th className="p-4 text-gray-700 font-semibold w-24 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
             {sortedTerms.length === 0 ? (
               <tr>
-                <td colSpan={4} className="p-4 text-center text-gray-500">
+                <td colSpan={5} className="p-4 text-center text-gray-500">
                   No terms found. Add one above!
                 </td>
               </tr>
@@ -205,6 +225,15 @@ export default function TermsPage() {
                   <td className="p-4 font-medium text-gray-800">Level {term.level}</td>
                   <td className="p-4 font-medium text-gray-800">Term {term.number}</td>
                   <td className="p-4 text-gray-600">{getDepartmentName(term.department_id)}</td>
+                  <td className="p-4 text-right">
+                    <button
+                      onClick={() => handleDelete(term.id)}
+                      disabled={isDeleting === term.id}
+                      className="text-red-600 hover:text-red-800 font-medium transition disabled:opacity-50"
+                    >
+                      {isDeleting === term.id ? "Deleting..." : "Delete"}
+                    </button>
+                  </td>
                 </tr>
               ))
             )}

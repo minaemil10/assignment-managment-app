@@ -18,6 +18,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!user) return null;
 
+        // Block deactivated users from logging in
+        if (user.is_active === false) {
+          throw new Error("Your account has been deactivated. Please contact an administrator.");
+        }
+
         const passwordsMatch = await bcrypt.compare(credentials.password as string, user.password_hash);
         if (!passwordsMatch) return null;
 

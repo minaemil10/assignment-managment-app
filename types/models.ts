@@ -29,6 +29,15 @@ export interface LabGroup {
   course_id: number;
 }
 
+export interface Course {
+  id: number;
+  code: string;
+  name: string;
+  is_elective: boolean;
+  term_id: number;
+  department_id: number | null;
+}
+
 export interface CourseWithDetails {
   id: number;
   code: string;
@@ -45,6 +54,7 @@ export interface User {
   role: 'STUDENT' | 'COORDINATOR' | 'ADMIN';
   department_id: number | null;
   term: number | null;
+  is_active: boolean;
 }
 
 // ---------------------------------------------------------

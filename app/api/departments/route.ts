@@ -30,23 +30,34 @@ export async function POST(req: Request) {
 
     // 2. Read the JSON body sent from the frontend
     const { name } = await req.json();
+    const trimmedName = name?.trim();
 
-    if (!name || name.trim() === '') {
+    if (!trimmedName) {
       return NextResponse.json({ error: "Department name is required" }, { status: 400 });
     }
 
-    // 3. Insert the new department into the database
-    // The $1 is a placeholder. We pass `[name]` as the second argument.
+    // 3. Check for case-insensitive duplicate
+    const checkRes = await query(
+      'SELECT id FROM departments WHERE LOWER(name) = LOWER($1)',
+      [trimmedName]
+    );
+
+    if (checkRes.rows.length > 0) {
+      return NextResponse.json({ error: "Department already exists" }, { status: 400 });
+    }
+
+    // 4. Insert the new department into the database
+    // The $1 is a placeholder. We pass `[trimmedName]` as the second argument.
     // This is CRITICAL because it prevents SQL Injection hackers!
     // RETURNING * tells Postgres to give us back the newly created row instantly.
     const res = await query(
       'INSERT INTO departments (name) VALUES ($1) RETURNING *',
-      [name]
+      [trimmedName]
     );
 
     const newDept = res.rows[0];
 
-    // 4. AUTOMATIC TERM GENERATION
+    // 5. AUTOMATIC TERM GENERATION
     // Generate Terms 3 through 10 (Levels 1 to 4) for this newly created department
     const termsToInsert = [];
     for (let termNum = 3; termNum <= 10; termNum++) {
@@ -61,7 +72,7 @@ export async function POST(req: Request) {
       `);
     }
 
-    // 5. Return the newly created department data back to the frontend
+    // 6. Return the newly created department data back to the frontend
     return NextResponse.json(newDept, { status: 201 });
   } catch (error: any) {
     // Error code 23505 means "Unique constraint violation" (name al.ready exists)

@@ -11,6 +11,7 @@ export default function DepartmentsPage() {
   const [newDeptName, setNewDeptName] = useState("");
   // We use useState to show error messages
   const [error, setError] = useState("");
+  const [isDeleting, setIsDeleting] = useState<number | null>(null);
 
   // --- FUNCTIONS ---
   // 1. Function to fetch all departments from our API route
@@ -50,6 +51,24 @@ export default function DepartmentsPage() {
     }
   };
 
+  const handleDelete = async (id: number) => {
+    const confirmed = window.confirm("Are you sure you want to delete this department? This will also delete all terms associated with it.");
+    if (!confirmed) return;
+
+    setIsDeleting(id);
+    const res = await fetch(`/api/departments/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      fetchDepartments();
+    } else {
+      const data = await res.json();
+      alert(data.error || "Failed to delete department");
+    }
+    setIsDeleting(null);
+  };
+
   // --- UI RENDER ---
   return (
     <div className="p-8 max-w-4xl mx-auto">
@@ -87,12 +106,13 @@ export default function DepartmentsPage() {
             <tr className="bg-gray-100 border-b border-gray-200">
               <th className="p-4 text-gray-700 font-semibold w-24">ID</th>
               <th className="p-4 text-gray-700 font-semibold">Department Name</th>
+              <th className="p-4 text-gray-700 font-semibold w-24 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
             {departments.length === 0 ? (
               <tr>
-                <td colSpan={2} className="p-4 text-center text-gray-500">
+                <td colSpan={3} className="p-4 text-center text-gray-500">
                   No departments found. Loading...
                 </td>
               </tr>
@@ -102,6 +122,15 @@ export default function DepartmentsPage() {
                 <tr key={dept.id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="p-4 text-gray-600">#{dept.id}</td>
                   <td className="p-4 font-medium text-gray-800">{dept.name}</td>
+                  <td className="p-4 text-right">
+                    <button
+                      onClick={() => handleDelete(dept.id)}
+                      disabled={isDeleting === dept.id}
+                      className="text-red-600 hover:text-red-800 font-medium transition disabled:opacity-50"
+                    >
+                      {isDeleting === dept.id ? "..." : "Delete"}
+                    </button>
+                  </td>
                 </tr>
               ))
             )}
