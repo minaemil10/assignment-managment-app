@@ -44,8 +44,25 @@ export async function POST(req: Request) {
       [name]
     );
 
-    // 4. Return the newly created department data back to the frontend
-    return NextResponse.json(res.rows[0], { status: 201 });
+    const newDept = res.rows[0];
+
+    // 4. AUTOMATIC TERM GENERATION
+    // Generate Terms 3 through 10 (Levels 1 to 4) for this newly created department
+    const termsToInsert = [];
+    for (let termNum = 3; termNum <= 10; termNum++) {
+      const level = Math.floor((termNum - 1) / 2);
+      termsToInsert.push(`(${termNum}, ${level}, ${newDept.id})`);
+    }
+
+    if (termsToInsert.length > 0) {
+      await query(`
+        INSERT INTO terms (number, level, department_id) 
+        VALUES ${termsToInsert.join(', ')}
+      `);
+    }
+
+    // 5. Return the newly created department data back to the frontend
+    return NextResponse.json(newDept, { status: 201 });
   } catch (error: any) {
     // Error code 23505 means "Unique constraint violation" (name al.ready exists)
     if (error.code === '23505') {
