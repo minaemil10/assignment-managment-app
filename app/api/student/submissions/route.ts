@@ -32,12 +32,17 @@ export async function POST(req: Request) {
     }
 
     // 2. Mark it as done (Insert if new, update if it was somehow false)
-    await query(`
-      INSERT INTO student_submissions (student_id, assignment_id, is_done)
-      VALUES ($1, $2, TRUE)
-      ON CONFLICT (student_id, assignment_id) 
-      DO UPDATE SET is_done = TRUE, marked_at = CURRENT_TIMESTAMP
-    `, [studentId, assignment_id]);
+    if (checkResult.rows.length > 0) {
+      await query(`
+        UPDATE student_submissions SET is_done = TRUE, marked_at = CURRENT_TIMESTAMP
+        WHERE student_id = $1 AND assignment_id = $2
+      `, [studentId, assignment_id]);
+    } else {
+      await query(`
+        INSERT INTO student_submissions (student_id, assignment_id, is_done)
+        VALUES ($1, $2, TRUE)
+      `, [studentId, assignment_id]);
+    }
 
     return NextResponse.json({ message: "Assignment marked as completed!" }, { status: 200 });
   } catch (error) {
