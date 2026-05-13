@@ -164,7 +164,11 @@ export default function CoursesPage() {
               <label htmlFor="isElective" className="ml-2 block text-sm font-medium text-muted-foreground cursor-pointer">Elective</label>
             </div>
 
-            <button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-2 px-6 rounded transition h-[42px]">
+            <button 
+              type="submit" 
+              disabled={!code || !name || !termId}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed font-bold py-2 px-6 rounded transition h-[42px]"
+            >
               Add Course
             </button>
           </div>
