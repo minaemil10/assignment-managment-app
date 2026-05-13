@@ -125,13 +125,13 @@ async function seedTestData() {
 
     // ── 8. Enrollments ────────────────────────────────────────────────
     await client.query(`
-      INSERT INTO enrollments (student_id, section_id, lab_group_id) VALUES
-        ($1, $3, $5),
-        ($1, $4, $6),
-        ($1, $7, NULL),
-        ($2, $3, $5),
-        ($2, $4, $6)
-    `, [student1, student2, sec401A, sec402A, lab401_1, lab402_1, sec403A]);
+      INSERT INTO enrollments (student_id, course_id, section_id, lab_group_id) VALUES
+        ($1, $3, $6, $8),
+        ($1, $4, $7, $9),
+        ($1, $5, $10, NULL),
+        ($2, $3, $6, $8),
+        ($2, $4, $7, $9)
+    `, [student1, student2, cs401, cs402, cs403, sec401A, sec402A, lab401_1, lab402_1, sec403A]);
     console.log("✓ Enrollments");
 
     // ── 9. Assignments ────────────────────────────────────────────────
