@@ -192,8 +192,8 @@ export default function AssignmentForm({ courseId, initialData, mode }: Assignme
       <div className="flex gap-3 pt-4">
         <button
           type="submit"
-          disabled={loading}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 font-semibold py-2 px-4 rounded transition"
+          disabled={loading || !title || !type || !dueDate}
+          className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed font-semibold py-2 px-4 rounded transition"
         >
           {loading
             ? mode === "create" ? "Creating..." : "Saving..."

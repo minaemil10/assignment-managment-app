@@ -29,6 +29,9 @@ export default async function StudentNavbar() {
               <Link href="/dashboard" className="px-4 py-2 text-sm font-bold text-muted-foreground hover:text-primary hover:bg-accent rounded-lg transition-all">
                 Dashboard
               </Link>
+              <Link href="/my-courses" className="px-4 py-2 text-sm font-bold text-muted-foreground hover:text-primary hover:bg-accent rounded-lg transition-all">
+                My Courses
+              </Link>
               <Link href="/courses" className="px-4 py-2 text-sm font-bold text-muted-foreground hover:text-primary hover:bg-accent rounded-lg transition-all">
                 Course Catalog
               </Link>
