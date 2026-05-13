@@ -88,13 +88,13 @@ export default function AssignmentForm({ courseId, initialData, mode }: Assignme
     }
   };
 
-  const inputClass = "w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500";
-  const labelClass = "block text-sm font-medium text-gray-300 mb-1";
+  const inputClass = "w-full px-3 py-2 bg-input border border-border rounded text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring";
+  const labelClass = "block text-sm font-medium text-foreground mb-1";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5 max-w-2xl">
       {error && (
-        <div className="bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded text-sm">
+        <div className="bg-destructive/10 border border-destructive/30 text-destructive px-4 py-3 rounded text-sm">
           {error}
         </div>
       )}
@@ -193,7 +193,7 @@ export default function AssignmentForm({ courseId, initialData, mode }: Assignme
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-2 px-4 rounded transition"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 font-semibold py-2 px-4 rounded transition"
         >
           {loading
             ? mode === "create" ? "Creating..." : "Saving..."
@@ -202,7 +202,7 @@ export default function AssignmentForm({ courseId, initialData, mode }: Assignme
         </button>
         <button
           type="button"
-          className="border border-gray-600 text-gray-300 hover:bg-gray-700 py-2 px-4 rounded transition"
+          className="border border-border text-muted-foreground hover:bg-accent py-2 px-4 rounded transition"
           onClick={() => router.push(`/coordinator/courses/${courseId}/assignments`)}
         >
           Cancel

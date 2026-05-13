@@ -82,36 +82,38 @@ export default function CoursesPage() {
     return t.department_id === Number(departmentId);
   });
 
+  const inputClass = "w-full border border-border bg-input p-2 rounded text-foreground focus:ring-2 focus:ring-ring outline-none";
+
   return (
     <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Manage Courses</h1>
+      <h1 className="text-3xl font-bold mb-6 text-foreground">Manage Courses</h1>
 
       {/* The Form */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">Add New Course</h2>
-        {error && <p className="text-red-500 mb-4 bg-red-50 p-3 rounded text-sm">{error}</p>}
+      <div className="bg-accent/30 p-6 rounded-xl border border-border mb-8">
+        <h2 className="text-xl font-semibold mb-4 text-foreground">Add New Course</h2>
+        {error && <p className="text-destructive mb-4 bg-destructive/10 p-3 rounded text-sm">{error}</p>}
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex gap-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Course Code</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">Course Code</label>
               <input
                 type="text"
                 required
                 placeholder="e.g., CS101"
-                className="w-full border border-gray-300 p-2 rounded text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
+                className={inputClass}
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
               />
             </div>
             
             <div className="flex-2 w-1/2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Course Name</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">Course Name</label>
               <input
                 type="text"
                 required
                 placeholder="e.g., Intro to Programming"
-                className="w-full border border-gray-300 p-2 rounded text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
+                className={inputClass}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -120,9 +122,9 @@ export default function CoursesPage() {
 
           <div className="flex gap-4 items-end">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">Department</label>
               <select
-                className="w-full border border-gray-300 p-2 rounded text-gray-900 bg-white"
+                className={inputClass}
                 value={departmentId}
                 onChange={(e) => {
                   setDepartmentId(e.target.value);
@@ -137,9 +139,9 @@ export default function CoursesPage() {
             </div>
 
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Term</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">Term</label>
               <select
-                className="w-full border border-gray-300 p-2 rounded text-gray-900 bg-white"
+                className={inputClass}
                 value={termId}
                 onChange={(e) => setTermId(e.target.value)}
                 required
@@ -155,14 +157,14 @@ export default function CoursesPage() {
               <input
                 type="checkbox"
                 id="isElective"
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded cursor-pointer"
+                className="w-4 h-4 text-blue-600 border-border rounded cursor-pointer"
                 checked={isElective}
                 onChange={(e) => setIsElective(e.target.checked)}
               />
-              <label htmlFor="isElective" className="ml-2 block text-sm font-medium text-gray-700 cursor-pointer">Elective</label>
+              <label htmlFor="isElective" className="ml-2 block text-sm font-medium text-muted-foreground cursor-pointer">Elective</label>
             </div>
 
-            <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition h-[42px]">
+            <button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-2 px-6 rounded transition h-[42px]">
               Add Course
             </button>
           </div>
@@ -170,36 +172,36 @@ export default function CoursesPage() {
       </div>
 
       {/* The Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-card rounded-xl border border-border overflow-hidden">
         <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-accent/50 border-b border-border">
             <tr>
-              <th className="p-4 text-gray-600 font-semibold">Code</th>
-              <th className="p-4 text-gray-600 font-semibold">Name</th>
-              <th className="p-4 text-gray-600 font-semibold">Term</th>
-              <th className="p-4 text-gray-600 font-semibold">Department</th>
-              <th className="p-4 text-gray-600 font-semibold text-right">Action</th>
+              <th className="p-4 text-muted-foreground font-semibold">Code</th>
+              <th className="p-4 text-muted-foreground font-semibold">Name</th>
+              <th className="p-4 text-muted-foreground font-semibold">Term</th>
+              <th className="p-4 text-muted-foreground font-semibold">Department</th>
+              <th className="p-4 text-muted-foreground font-semibold text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-border">
             {courses.length === 0 ? (
-              <tr><td colSpan={5} className="p-8 text-center text-gray-400">No courses found.</td></tr>
+              <tr><td colSpan={5} className="p-8 text-center text-muted-foreground">No courses found.</td></tr>
             ) : (
               courses.map((course) => (
-                <tr key={course.id} className="hover:bg-gray-50 transition">
-                  <td className="p-4 font-bold text-blue-600">
+                <tr key={course.id} className="hover:bg-accent/30 transition">
+                  <td className="p-4 font-bold text-primary">
                     <Link href={`/admin/courses/${course.id}`} className="hover:underline">
                       {course.code}
                     </Link>
                   </td>
                   <td className="p-4">
-                    <div className="font-medium text-gray-800">{course.name}</div>
-                    {course.is_elective && <span className="text-[10px] bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded font-bold uppercase">Elective</span>}
+                    <div className="font-medium text-foreground">{course.name}</div>
+                    {course.is_elective && <span className="text-[10px] bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 px-1.5 py-0.5 rounded font-bold uppercase">Elective</span>}
                   </td>
-                  <td className="p-4 text-gray-600 text-sm">{getTermName(course.term_id)}</td>
-                  <td className="p-4 text-gray-600 text-sm">{getDepartmentName(course.department_id)}</td>
+                  <td className="p-4 text-muted-foreground text-sm">{getTermName(course.term_id)}</td>
+                  <td className="p-4 text-muted-foreground text-sm">{getDepartmentName(course.department_id)}</td>
                   <td className="p-4 text-right">
-                    <Link href={`/admin/courses/${course.id}`} className="text-blue-600 hover:text-blue-800 text-sm font-bold">
+                    <Link href={`/admin/courses/${course.id}`} className="text-primary hover:text-primary/80 text-sm font-bold">
                       Manage →
                     </Link>
                   </td>

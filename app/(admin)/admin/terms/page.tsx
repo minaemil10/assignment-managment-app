@@ -134,33 +134,35 @@ export default function TermsPage() {
     return 0;
   });
 
+  const inputClass = "w-full border border-border bg-input p-2 rounded text-foreground focus:outline-none focus:ring-2 focus:ring-ring";
+
   return (
     <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Manage Terms</h1>
+      <h1 className="text-3xl font-bold mb-6 text-foreground">Manage Terms</h1>
 
       {/* The Form */}
-      <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">Add New Term</h2>
-        {error && <p className="text-red-500 mb-4 bg-red-50 p-3 rounded">{error}</p>}
+      <div className="bg-accent/30 p-6 rounded-lg border border-border mb-8">
+        <h2 className="text-xl font-semibold mb-4 text-foreground">Add New Term</h2>
+        {error && <p className="text-destructive mb-4 bg-destructive/10 p-3 rounded">{error}</p>}
         
         <form onSubmit={handleSubmit} className="flex gap-4 items-end">
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Term Number</label>
+            <label className="block text-sm font-medium text-muted-foreground mb-1">Term Number</label>
             <input
               type="number"
               required
               min="1"
               placeholder="e.g., 1"
-              className="w-full border border-gray-300 p-2 rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
               value={number}
               onChange={(e) => setNumber(e.target.value)}
             />
           </div>
           
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+            <label className="block text-sm font-medium text-muted-foreground mb-1">Department</label>
             <select
-              className="w-full border border-gray-300 p-2 rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className={inputClass}
               value={departmentId}
               onChange={(e) => setDepartmentId(e.target.value)}
             >
@@ -173,63 +175,63 @@ export default function TermsPage() {
             </select>
           </div>
 
-          <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition h-[42px]">
+          <button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-2 px-6 rounded transition h-[42px]">
             Add
           </button>
         </form>
       </div>
 
       {/* The Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-card rounded-lg border border-border overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-gray-100 border-b border-gray-200">
+            <tr className="bg-accent/50 border-b border-border">
               <th 
-                className="p-4 text-gray-700 font-semibold w-24 cursor-pointer hover:bg-gray-200 transition select-none"
+                className="p-4 text-muted-foreground font-semibold w-24 cursor-pointer hover:bg-accent transition select-none"
                 onClick={() => handleSort('id')}
               >
                 ID{renderSortIndicator('id')}
               </th>
               <th 
-                className="p-4 text-gray-700 font-semibold cursor-pointer hover:bg-gray-200 transition select-none"
+                className="p-4 text-muted-foreground font-semibold cursor-pointer hover:bg-accent transition select-none"
                 onClick={() => handleSort('level')}
               >
                 Level{renderSortIndicator('level')}
               </th>
               <th 
-                className="p-4 text-gray-700 font-semibold cursor-pointer hover:bg-gray-200 transition select-none"
+                className="p-4 text-muted-foreground font-semibold cursor-pointer hover:bg-accent transition select-none"
                 onClick={() => handleSort('number')}
               >
                 Term Number{renderSortIndicator('number')}
               </th>
               <th 
-                className="p-4 text-gray-700 font-semibold cursor-pointer hover:bg-gray-200 transition select-none"
+                className="p-4 text-muted-foreground font-semibold cursor-pointer hover:bg-accent transition select-none"
                 onClick={() => handleSort('department')}
               >
                 Department{renderSortIndicator('department')}
               </th>
-              <th className="p-4 text-gray-700 font-semibold w-24 text-right">Actions</th>
+              <th className="p-4 text-muted-foreground font-semibold w-24 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
             {sortedTerms.length === 0 ? (
               <tr>
-                <td colSpan={5} className="p-4 text-center text-gray-500">
+                <td colSpan={5} className="p-4 text-center text-muted-foreground">
                   No terms found. Add one above!
                 </td>
               </tr>
             ) : (
               sortedTerms.map((term) => (
-                <tr key={term.id} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="p-4 text-gray-600">#{term.id}</td>
-                  <td className="p-4 font-medium text-gray-800">Level {term.level}</td>
-                  <td className="p-4 font-medium text-gray-800">Term {term.number}</td>
-                  <td className="p-4 text-gray-600">{getDepartmentName(term.department_id)}</td>
+                <tr key={term.id} className="border-b border-border hover:bg-accent/30">
+                  <td className="p-4 text-muted-foreground">#{term.id}</td>
+                  <td className="p-4 font-medium text-foreground">Level {term.level}</td>
+                  <td className="p-4 font-medium text-foreground">Term {term.number}</td>
+                  <td className="p-4 text-muted-foreground">{getDepartmentName(term.department_id)}</td>
                   <td className="p-4 text-right">
                     <button
                       onClick={() => handleDelete(term.id)}
                       disabled={isDeleting === term.id}
-                      className="text-red-600 hover:text-red-800 font-medium transition disabled:opacity-50"
+                      className="text-destructive hover:text-destructive/80 font-medium transition disabled:opacity-50"
                     >
                       {isDeleting === term.id ? "Deleting..." : "Delete"}
                     </button>

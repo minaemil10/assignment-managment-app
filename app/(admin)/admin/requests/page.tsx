@@ -42,32 +42,32 @@ export default function RequestsPage() {
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Loading Requests...</div>;
+  if (loading) return <div className="p-8 text-center text-muted-foreground">Loading Requests...</div>;
 
   const pending = requests.filter(r => r.status === "PENDING");
   const history = requests.filter(r => r.status !== "PENDING");
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Coordinator Requests</h1>
+      <h1 className="text-3xl font-bold mb-8 text-foreground">Coordinator Requests</h1>
 
       <section className="mb-12">
-        <h2 className="text-xl font-bold mb-4 text-orange-600 flex items-center gap-2">
-          <span className="w-3 h-3 bg-orange-600 rounded-full animate-pulse"></span>
+        <h2 className="text-xl font-bold mb-4 text-orange-600 dark:text-orange-400 flex items-center gap-2">
+          <span className="w-3 h-3 bg-orange-600 dark:bg-orange-400 rounded-full animate-pulse"></span>
           Pending Requests ({pending.length})
         </h2>
         <div className="grid grid-cols-1 gap-4">
           {pending.map((req) => (
-            <div key={req.id} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-orange-500 flex justify-between items-center">
+            <div key={req.id} className="bg-card p-6 rounded-lg border border-border border-l-4 border-l-orange-500 flex justify-between items-center">
               <div>
-                <p className="text-lg font-bold text-gray-900">{req.user_name}</p>
-                <p className="text-gray-500">{req.user_email}</p>
-                <p className="text-xs text-gray-400 mt-1">Requested on: {new Date(req.created_at).toLocaleDateString()}</p>
+                <p className="text-lg font-bold text-foreground">{req.user_name}</p>
+                <p className="text-muted-foreground">{req.user_email}</p>
+                <p className="text-xs text-muted-foreground/70 mt-1">Requested on: {new Date(req.created_at).toLocaleDateString()}</p>
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => handleAction(req.id, "REJECTED")}
-                  className="px-4 py-2 text-red-600 font-bold hover:bg-red-50 rounded transition"
+                  className="px-4 py-2 text-red-600 dark:text-red-400 font-bold hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition"
                 >
                   Reject
                 </button>
@@ -81,7 +81,7 @@ export default function RequestsPage() {
             </div>
           ))}
           {pending.length === 0 && (
-            <div className="bg-gray-50 p-8 rounded-lg border border-dashed border-gray-300 text-center text-gray-500">
+            <div className="bg-accent/30 p-8 rounded-lg border border-dashed border-border text-center text-muted-foreground">
               No pending requests at the moment.
             </div>
           )}
@@ -89,30 +89,32 @@ export default function RequestsPage() {
       </section>
 
       <section>
-        <h2 className="text-xl font-bold mb-4 text-gray-600">Request History</h2>
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <h2 className="text-xl font-bold mb-4 text-muted-foreground">Request History</h2>
+        <div className="bg-card rounded-lg border border-border overflow-hidden">
           <table className="w-full text-left">
-            <thead className="bg-gray-100 border-b">
+            <thead className="bg-accent/50 border-b border-border">
               <tr>
-                <th className="p-4 text-gray-600 font-semibold">User</th>
-                <th className="p-4 text-gray-600 font-semibold">Status</th>
-                <th className="p-4 text-gray-600 font-semibold">Reviewed By</th>
-                <th className="p-4 text-gray-600 font-semibold">Date</th>
+                <th className="p-4 text-muted-foreground font-semibold">User</th>
+                <th className="p-4 text-muted-foreground font-semibold">Status</th>
+                <th className="p-4 text-muted-foreground font-semibold">Reviewed By</th>
+                <th className="p-4 text-muted-foreground font-semibold">Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-border">
               {history.map((req) => (
                 <tr key={req.id}>
-                  <td className="p-4 text-gray-800">{req.user_name}</td>
+                  <td className="p-4 text-foreground">{req.user_name}</td>
                   <td className="p-4">
                     <span className={`px-2 py-1 rounded text-xs font-bold ${
-                      req.status === "APPROVED" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                      req.status === "APPROVED" 
+                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" 
+                        : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                     }`}>
                       {req.status}
                     </span>
                   </td>
-                  <td className="p-4 text-gray-500 text-sm">{req.reviewed_by_name || "System"}</td>
-                  <td className="p-4 text-gray-500 text-sm">{new Date(req.created_at).toLocaleDateString()}</td>
+                  <td className="p-4 text-muted-foreground text-sm">{req.reviewed_by_name || "System"}</td>
+                  <td className="p-4 text-muted-foreground text-sm">{new Date(req.created_at).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

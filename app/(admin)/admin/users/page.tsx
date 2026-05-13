@@ -38,33 +38,33 @@ export default function UsersPage() {
     }
   };
 
-  if (loading) return <div className="p-8 text-center">Loading Users...</div>;
+  if (loading) return <div className="p-8 text-center text-muted-foreground">Loading Users...</div>;
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">User Management</h1>
+      <h1 className="text-3xl font-bold mb-8 text-foreground">User Management</h1>
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+      <div className="bg-card rounded-xl overflow-hidden border border-border">
         <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-accent/50 border-b border-border">
             <tr>
-              <th className="p-4 font-semibold text-gray-600">User</th>
-              <th className="p-4 font-semibold text-gray-600">Role</th>
-              <th className="p-4 font-semibold text-gray-600">Department</th>
-              <th className="p-4 font-semibold text-gray-600">Status</th>
-              <th className="p-4 font-semibold text-gray-600 text-right">Actions</th>
+              <th className="p-4 font-semibold text-muted-foreground">User</th>
+              <th className="p-4 font-semibold text-muted-foreground">Role</th>
+              <th className="p-4 font-semibold text-muted-foreground">Department</th>
+              <th className="p-4 font-semibold text-muted-foreground">Status</th>
+              <th className="p-4 font-semibold text-muted-foreground text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-border">
             {users.map((user) => (
-              <tr key={user.id} className="hover:bg-gray-50 transition">
+              <tr key={user.id} className="hover:bg-accent/30 transition">
                 <td className="p-4">
-                  <div className="font-bold text-gray-900">{user.name}</div>
-                  <div className="text-sm text-gray-500">{user.email}</div>
+                  <div className="font-bold text-foreground">{user.name}</div>
+                  <div className="text-sm text-muted-foreground">{user.email}</div>
                 </td>
                 <td className="p-4">
                   <select
-                    className="border rounded p-1 text-sm bg-white text-gray-800"
+                    className="border border-border rounded p-1 text-sm bg-input text-foreground"
                     value={user.role}
                     onChange={(e) => updateUser(user.id, { role: e.target.value as any })}
                   >
@@ -73,14 +73,14 @@ export default function UsersPage() {
                     <option value="ADMIN">Admin</option>
                   </select>
                 </td>
-                <td className="p-4 text-gray-600 text-sm">
+                <td className="p-4 text-muted-foreground text-sm">
                   {user.department_name || "N/A"}
                 </td>
                 <td className="p-4">
                   {user.is_active ? (
-                    <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold uppercase">Active</span>
+                    <span className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded-full text-xs font-bold uppercase">Active</span>
                   ) : (
-                    <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-bold uppercase">Deactivated</span>
+                    <span className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 px-2 py-1 rounded-full text-xs font-bold uppercase">Deactivated</span>
                   )}
                 </td>
                 <td className="p-4 text-right">
@@ -88,8 +88,8 @@ export default function UsersPage() {
                     onClick={() => updateUser(user.id, { is_active: !user.is_active })}
                     className={`text-sm font-bold px-3 py-1 rounded ${
                       user.is_active 
-                        ? "text-red-600 hover:bg-red-50" 
-                        : "text-green-600 hover:bg-green-50"
+                        ? "text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
+                        : "text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20"
                     }`}
                   >
                     {user.is_active ? "Deactivate" : "Reactivate"}

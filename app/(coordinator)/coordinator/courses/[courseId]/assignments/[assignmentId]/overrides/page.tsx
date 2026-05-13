@@ -43,33 +43,33 @@ export default async function OverrideManagementPage({
   const overrides = overridesResult.rows;
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8">
+    <div className="min-h-screen bg-background text-foreground p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <Link
             href={`/coordinator/courses/${courseId}/assignments`}
-            className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+            className="text-sm text-muted-foreground/70 hover:text-foreground transition-colors"
           >
             ← Back to Assignments
           </Link>
-          <h1 className="text-3xl font-bold text-white mt-1">Deadline Overrides</h1>
-          <p className="text-gray-400">
+          <h1 className="text-3xl font-bold text-foreground mt-1">Deadline Overrides</h1>
+          <p className="text-muted-foreground">
             Manage per-section deadline exceptions for this assignment
           </p>
         </div>
 
         {/* Assignment Info */}
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-6">
-          <h2 className="text-lg font-bold text-white mb-2">{assignment.title}</h2>
+        <div className="bg-card border border-border rounded-lg p-6 mb-6">
+          <h2 className="text-lg font-bold text-foreground mb-2">{assignment.title}</h2>
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
             <div>
-              <span className="text-gray-500">Type: </span>
-              <span className="text-gray-300">{assignment.type.replace("_", " ")}</span>
+              <span className="text-muted-foreground/70">Type: </span>
+              <span className="text-muted-foreground">{assignment.type.replace("_", " ")}</span>
             </div>
             <div>
-              <span className="text-gray-500">Default Deadline: </span>
-              <span className="text-gray-300">
+              <span className="text-muted-foreground/70">Default Deadline: </span>
+              <span className="text-muted-foreground">
                 {new Date(assignment.due_date).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
