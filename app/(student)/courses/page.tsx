@@ -177,15 +177,27 @@ export default function CourseCatalog() {
                     )}
                   </div>
 
-                  <button 
-                    disabled={submitting}
-                    onClick={() => handleEnroll(course)}
-                    className={`w-full text-primary-foreground font-bold py-3 rounded-lg transition-all shadow-lg ${
-                      submitting ? 'bg-muted-foreground cursor-not-allowed' : 'bg-primary hover:bg-primary/90'
-                    }`}
-                  >
-                    {submitting ? "Saving..." : "Join Course"}
-                  </button>
+                  {/* Calculate if the user is missing required fields */}
+                  {(() => {
+                    const isMissingRequiredFields = (course.sections.length > 0 && !sectionId) || (course.labs.length > 0 && !labId);
+                    const isDisabled = submitting || isMissingRequiredFields;
+
+                    return (
+                      <button 
+                        disabled={isDisabled}
+                        onClick={() => handleEnroll(course)}
+                        className={`w-full text-primary-foreground font-bold py-3 rounded-lg transition-all shadow-lg ${
+                          submitting 
+                            ? 'bg-muted-foreground cursor-not-allowed' 
+                            : isMissingRequiredFields
+                              ? 'bg-primary/50 cursor-not-allowed opacity-70'
+                              : 'bg-primary hover:bg-primary/90'
+                        }`}
+                      >
+                        {submitting ? "Saving..." : "Join Course"}
+                      </button>
+                    );
+                  })()}
                 </div>
               )}
             </div>

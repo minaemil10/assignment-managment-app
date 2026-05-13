@@ -104,8 +104,8 @@ export default function OverrideForm({ assignmentId, availableSections, onSucces
 
         <button
           type="submit"
-          disabled={loading}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 font-semibold py-2 px-4 rounded transition shrink-0"
+          disabled={loading || !sectionId || !dueDate}
+          className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed font-semibold py-2 px-4 rounded transition shrink-0"
         >
           {loading ? "Adding..." : "Add Override"}
         </button>
