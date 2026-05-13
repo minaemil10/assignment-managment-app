@@ -92,7 +92,8 @@ export default function DepartmentsPage() {
           />
           <button 
             type="submit"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-2 px-6 rounded transition"
+            disabled={!newDeptName}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed font-bold py-2 px-6 rounded transition"
           >
             Add
           </button>
