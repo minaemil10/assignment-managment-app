@@ -56,6 +56,7 @@ export default function CourseCatalog() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          course_id: course.id,
           section_id: sectionId ? parseInt(sectionId) : null,
           lab_group_id: labId ? parseInt(labId) : null
         })

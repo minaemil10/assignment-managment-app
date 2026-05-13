@@ -73,6 +73,7 @@ CREATE TABLE lab_groups (
 CREATE TABLE enrollments (
     id SERIAL PRIMARY KEY,
     student_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    course_id INTEGER REFERENCES courses(id) ON DELETE CASCADE,
     section_id INTEGER REFERENCES sections(id),
     lab_group_id INTEGER REFERENCES lab_groups(id),
     enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
