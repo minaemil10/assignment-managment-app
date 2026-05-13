@@ -3,6 +3,7 @@
 This document contains the core architectural diagrams for the Assignment Management System. Because these are written in Mermaid.js, you can view them directly in your IDE (if you have a markdown preview plugin) or by pasting this file into a GitHub repository.
 
 ## 1. Use Case Diagram
+
 This outlines the primary actors in the system and their allowed interactions.
 
 ```mermaid
@@ -17,13 +18,13 @@ flowchart LR
         UC1("Manage Users & Roles")
         UC2("Manage Departments & Terms")
         UC3("Manage Course Catalog")
-        
+
         UC4("Request Coordinator Access")
         UC5("Approve/Reject Requests")
-        
+
         UC6("Create/Edit Assignments")
         UC7("Set Deadline Overrides")
-        
+
         UC8("Enroll in Courses")
         UC9("View Dashboard/Deadlines")
         UC10("Mark Assignments as Done")
@@ -43,11 +44,12 @@ flowchart LR
     Coord --> UC6
     Coord --> UC7
     Coord --> UC9
-    
+
     %% Coordinator is a user, they also enroll/take courses in some contexts, but mostly manage
 ```
 
 ## 2. Class / Entity-Relationship Diagram
+
 This illustrates the database schema and the relationships between the core data models.
 
 ```mermaid
@@ -108,7 +110,7 @@ classDiagram
         +Int user_id
         +Int assignment_id
     }
-    
+
     class Enrollment {
         +Int id
         +Int user_id
@@ -122,18 +124,19 @@ classDiagram
     Department "1" <-- "many" Term : Contains
     Department "1" <-- "many" Course : Belongs to
     Term "1" <-- "many" Course : Included in
-    
+
     Course "1" <-- "many" Assignment : Has
     Course "1" <-- "many" Enrollment : Has
-    
+
     User "1" <-- "many" Enrollment : Has
     User "1" <-- "many" Submission : Makes
-    
+
     Assignment "1" <-- "many" Submission : Receives
     Assignment "1" <-- "many" DeadlineOverride : Has
 ```
 
 ## 3. Sequence Diagram
+
 This demonstrates the chronological flow of a Student viewing their dashboard and marking an assignment as done.
 
 ```mermaid
@@ -145,60 +148,62 @@ sequenceDiagram
 
     Student->>UI: Navigates to Dashboard
     UI->>API: GET /api/student/dashboard
-    
+
     API->>DB: Fetch Enrollments for User
     DB-->>API: Returns Enrolled Courses
-    
+
     API->>DB: Fetch Assignments for Enrolled Courses
     DB-->>API: Returns Assignments
-    
+
     API->>DB: Fetch Overrides (Section/Lab match)
     DB-->>API: Returns Overrides
-    
+
     API->>API: Calculate Resolved Deadlines
     API-->>UI: JSON (Assignments + Status)
-    
+
     UI-->>Student: Displays Dashboard UI
-    
+
     Student->>UI: Clicks "Mark Done"
     UI->>API: POST /api/student/submissions { assignment_id }
-    
+
     API->>DB: Insert/Update Submission (is_done = true)
     DB-->>API: Success
-    
+
     API-->>UI: 200 OK
     UI-->>Student: Updates UI to Completed State
 ```
 
 ## 4. Activity Diagram
+
 This flowchart maps the logical decision process for calculating the **True (Resolved) Deadline** of an assignment for a specific student.
 
 ```mermaid
 flowchart TD
     Start([Start: Fetch Assignment for Student]) --> Q1{Does an Override exist?}
-    
+
     Q1 -- Yes --> Q2{Does Override match Student's Section?}
     Q1 -- No --> Base[Use Original Assignment Deadline]
-    
+
     Q2 -- Yes --> UseSec[Use Section Override Deadline]
     Q2 -- No --> Q3{Does Override match Student's Lab Group?}
-    
+
     Q3 -- Yes --> UseLab[Use Lab Group Override Deadline]
     Q3 -- No --> Base
-    
+
     UseSec --> Compare{Is Lab Override also present?}
     Compare -- Yes --> Q3
     Compare -- No --> FinalSec[Final Deadline = Section Override]
-    
+
     UseLab --> FinalLab[Final Deadline = Lab Override]
     Base --> FinalBase[Final Deadline = Original Deadline]
-    
+
     FinalSec --> End([Display on Dashboard])
     FinalLab --> End
     FinalBase --> End
 ```
 
 ## 5. State Machine Diagram
+
 This shows the lifecycle states of an `Assignment` relative to a student's `Submission`.
 
 ```mermaid
@@ -207,11 +212,11 @@ stateDiagram-v2
 
     Pending --> DueSoon : Time < 24h to Deadline
     Pending --> Completed : Student Marks Done
-    
+
     DueSoon --> Overdue : Deadline Passes
     DueSoon --> Completed : Student Marks Done
-    
+
     Overdue --> Completed : Student Marks Done (Late)
-    
+
     Completed --> [*]
 ```
